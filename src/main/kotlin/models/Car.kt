@@ -1,15 +1,15 @@
 package models
 
-data class Car(var kiaModel: String,
-               var kiaCategory: String,
-               var kiaCost: Double,
-               var kiaYear: Int,
-               var kiaEngine: Double,
+data class Car(var carModel: String,
+               var carCategory: String,
+               var carCost: Double,
+               var carYear: Int,
+               var carEngine: Double,
                var numberOfDoors: Int,
-               var kiaTransmission: String,
+               var carTransmission: String,
                var isCarSold :Boolean){
 
     override fun toString(): String {
-        return "Note(kiaModel='$kiaModel', kiaCategory='$kiaCategory', kiaCost=$kiaCost, kiaYear=$kiaYear, kiaEngine=$kiaEngine, numberOfDoors=$numberOfDoors, kiaTransmission='$kiaTransmission', isCarSold=$isCarSold)"
+        return "Car(carModel='$carModel', carCategory='$carCategory', carCost=$carCost, carYear=$carYear, carEngine=$carEngine, numberOfDoors=$numberOfDoors, carTransmission='$carTransmission', isCarSold=$isCarSold)"
     }
 }
