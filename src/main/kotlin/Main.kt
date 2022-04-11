@@ -1,6 +1,10 @@
 import controllers.CarAPI
+import models.Car
 import mu.KotlinLogging
 import utils.ScannerInput
+import utils.ScannerInput.readNextDouble
+import utils.ScannerInput.readNextInt
+import utils.ScannerInput.readNextLine
 import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
@@ -74,7 +78,20 @@ fun listAllCars() {
 }
 
 fun addCar(){
-    println("You chose Add Note")
+    //logger.info { "addNote() function invoked" }
+    val carModel = readNextLine("Enter the model of the car: ")
+    val carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Waggon, Sport, Super: ")
+    val carCost = readNextDouble("Enter a price for the car: ")
+    val carYear = readNextInt("Enter a year for the car (00-99): ")
+    val carEngine = readNextDouble("Enter the engine size of the car: ")
+    val numberOfDoors = readNextInt("Enter the number of doors for the car (2-5): ")
+    val carTransmission = readNextLine("Enter the transmission of the car (Manual or Automatic): ")
+    val isAdded = carAPI.add(Car(carModel, carCategory, carCost, carYear, carEngine, numberOfDoors, carTransmission, false))
+    if (isAdded) {
+        println("Added Successfully")
+    } else {
+        println("Add Failed")
+    }
 }
 
 fun updateCar(){
