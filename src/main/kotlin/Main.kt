@@ -1,8 +1,11 @@
+import controllers.CarAPI
 import mu.KotlinLogging
 import utils.ScannerInput
 import java.lang.System.exit
 
 private val logger = KotlinLogging.logger {}
+
+private val carAPI = CarAPI()
 
 fun main(args: Array<String>) {
     runMenu()
@@ -19,9 +22,9 @@ fun mainMenu(): Int {
          > |   2) List Cars                 |
          > |   3) Update a Car              |
          > |   4) Delete a Car              |
-         > |   5) Archive a Car             |
-         > |   6) save                      |
-         > |   7) load                      |
+         > |   5) Sell a Car                |
+         > |   6) Save                      |
+         > |   7) Load                      |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -37,7 +40,7 @@ fun runMenu() {
             2 -> listCars()
             3 -> updateCar()
             4 -> deleteCar()
-            //5 -> archiveCar()
+            //5 -> sellCar()
             //7 -> save()
             //8 -> load()
             0 -> exitApp()
@@ -47,7 +50,7 @@ fun runMenu() {
 }
 
 fun listCars() {
-    if (carAPI.numberOfNotes() > 0) {
+    if (carAPI.numberOfCars() > 0) {
         val option = ScannerInput.readNextInt(
             """
                   > ----------------------------------
@@ -57,12 +60,17 @@ fun listCars() {
         )
 
         when (option) {
-            //1 -> listAllCars()
+            1 -> listAllCars()
             else -> println("Invalid option entered: " + option)
         }
     } else {
         println("Option Invalid - No notes stored")
     }
+}
+
+fun listAllCars() {
+    // logger.info { "listNotes() function invoked" }
+    println(carAPI.listAllCars())
 }
 
 fun addCar(){
