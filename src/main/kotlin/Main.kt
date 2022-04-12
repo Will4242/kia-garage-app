@@ -98,8 +98,20 @@ fun updateCar(){
     println("You chose Update Note")
 }
 
-fun deleteCar(){
-    println("You chose Delete Note")
+fun deleteCar() {
+    // logger.info { "deleteCars() function invoked" }
+    listAllCars()
+    if (carAPI.numberOfCars() > 0) {
+        // only ask the user to choose the car to delete if cars exist
+        val indexToDelete = readNextInt("Enter the index of the car to delete: ")
+        // pass the index of the car to CarAPI for deleting and check for success.
+        val carToDelete = carAPI.deleteCar(indexToDelete)
+        if (carToDelete != null) {
+            println("Delete Successful! Deleted car: ${carToDelete.carModel}")
+        } else {
+            println("Delete NOT Successful")
+        }
+    }
 }
 
 fun exitApp(){

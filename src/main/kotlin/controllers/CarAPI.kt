@@ -16,6 +16,12 @@ class CarAPI {
         return cars.add(car)
     }
 
+    fun deleteCar(indexToDelete: Int): Car? {
+        return if (isValidListIndex(indexToDelete, cars)) {
+            cars.removeAt(indexToDelete)
+        } else null
+    }
+
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }
