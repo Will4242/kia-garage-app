@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class CarAPITest {
 
@@ -84,6 +85,26 @@ class CarAPITest {
             assertTrue(notesString.contains("kia stinger"))
             assertTrue(notesString.contains("kia niro"))
             assertTrue(notesString.contains("kia ev6"))
+        }
+    }
+
+    @Nested
+    inner class DeleteCars {
+
+        @Test
+        fun `deleting a Car that does not exist, returns null`() {
+            assertNull(emptyCars!!.deleteCar(0))
+            assertNull(populatedCars!!.deleteCar(-1))
+            assertNull(populatedCars!!.deleteCar(5))
+        }
+
+        @Test
+        fun `deleting a car that exists delete and returns deleted object`() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+            assertEquals(kiaEV6, populatedCars!!.deleteCar(4))
+            assertEquals(4, populatedCars!!.numberOfCars())
+            assertEquals(kiaRio, populatedCars!!.deleteCar(0))
+            assertEquals(3, populatedCars!!.numberOfCars())
         }
     }
 
