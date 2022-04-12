@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import persistence.XMLSerializer
+import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -17,8 +19,8 @@ class CarAPITest {
     private var kiaStinger: Car? = null
     private var kiaNiro: Car? = null
     private var kiaEV6: Car? = null
-    private var populatedCars: CarAPI? = CarAPI()
-    private var emptyCars: CarAPI? = CarAPI()
+    private var populatedCars: CarAPI? = CarAPI(XMLSerializer(File("notes.xml")))
+    private var emptyCars: CarAPI? = CarAPI(XMLSerializer(File("notes.xml")))
 
     @BeforeEach
     fun setup(){

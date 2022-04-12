@@ -1,15 +1,18 @@
 import controllers.CarAPI
 import models.Car
 import mu.KotlinLogging
+import persistence.XMLSerializer
 import utils.ScannerInput
 import utils.ScannerInput.readNextDouble
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import java.io.File
 import java.lang.System.exit
 
-private val logger = KotlinLogging.logger {}
+private val carAPI = CarAPI(XMLSerializer(File("cars.xml")))
+//private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
 
-private val carAPI = CarAPI()
+private val logger = KotlinLogging.logger {}
 
 fun main(args: Array<String>) {
     runMenu()
@@ -45,8 +48,8 @@ fun runMenu() {
             3 -> updateCar()
             4 -> deleteCar()
             //5 -> sellCar()
-            //7 -> save()
-            //8 -> load()
+            6 -> save()
+            7 -> load()
             0 -> exitApp()
             else -> System.out.println("Invalid option entered: $option")
         }
@@ -69,6 +72,22 @@ fun listCars() {
         }
     } else {
         println("Option Invalid - No notes stored")
+    }
+}
+
+fun save() {
+    try {
+        carAPI.store()
+    } catch (e: Exception) {
+        System.err.println("Error writing to file: $e")
+    }
+}
+
+fun load() {
+    try {
+        carAPI.load()
+    } catch (e: Exception) {
+        System.err.println("Error reading from file: $e")
     }
 }
 
