@@ -47,7 +47,7 @@ fun runMenu() {
             2 -> listCars()
             3 -> updateCar()
             4 -> deleteCar()
-            //5 -> sellCar()
+            5 -> sellCar()
             6 -> save()
             7 -> load()
             0 -> exitApp()
@@ -62,12 +62,20 @@ fun listCars() {
             """
                   > ----------------------------------
                   > |   1) View ALL Cars             |
+                  > |   2) View Cars on Sale         |
+                  > |   3) View Sold Cars            |
+                  > |   4) Number of Cars on Sale    |
+                  > |   5) Number of Sold Cars       |
                   > ----------------------------------
          > ==>> """.trimMargin(">")
         )
 
         when (option) {
             1 -> listAllCars()
+            2 -> listCarsOnSale()
+            3 -> listSoldCars()
+            4 -> numberOfCarsOnSale()
+            5 -> numberOfSoldCars()
             else -> println("Invalid option entered: " + option)
         }
     } else {
@@ -160,3 +168,32 @@ fun exitApp(){
     println("Exiting...bye")
     exit(0)
 }
+
+fun listCarsOnSale() {
+    println(carAPI.listCarsOnSale())
+}
+
+fun listSoldCars() {
+    println(carAPI.listSoldCars())
+}
+
+fun numberOfSoldCars() {
+    println(carAPI.numberOfSoldCars())
+}
+
+fun numberOfCarsOnSale() {
+    println(carAPI.numberOfCarsOnSale())
+}
+
+fun sellCar() {
+    listCarsOnSale()
+    if (carAPI.numberOfCarsOnSale() > 0) {
+        val indexToSold = readNextInt("Enter the index of the car to sell: ")
+        if (carAPI.sellCar(indexToSold)) {
+            println("Sale Successful!")
+        } else {
+            println("Sale NOT Successful")
+        }
+    }
+}
+

@@ -2,6 +2,7 @@ package controllers
 
 import models.Car
 import persistence.Serializer
+import utils.ScannerInput
 
 class CarAPI(serializerType: Serializer) {
 
@@ -76,5 +77,32 @@ class CarAPI(serializerType: Serializer) {
     fun listAllCars(): String =
         if (cars.isEmpty()) "No cars stored"
         else formatListString(cars)
+
+    fun listCarsOnSale(): String =
+        if (numberOfCarsOnSale() == 0) "No cars on sale stored"
+        else formatListString(cars.filter { car -> !car.isCarSold })
+
+    fun listSoldCars(): String =
+        if (numberOfSoldCars() == 0) "No sold cars stored"
+        else formatListString(cars.filter { car -> car.isCarSold })
+
+    fun numberOfSoldCars(): Int {
+        return cars.count({ it.isCarSold })
+    }
+
+    fun numberOfCarsOnSale(): Int {
+        return cars.count({ !it.isCarSold })
+    }
+
+    fun sellCar(indexToSell: Int): Boolean {
+        if (isValidIndex(indexToSell)) {
+            val carToSold = cars[indexToSell]
+            if (!carToSold.isCarSold) {
+                carToSold.isCarSold = true
+                return true
+            }
+        }
+        return false
+    }
 
 }
