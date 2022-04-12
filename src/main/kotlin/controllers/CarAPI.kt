@@ -22,6 +22,26 @@ class CarAPI {
         } else null
     }
 
+    fun updateCar(indexToUpdate: Int, car: Car?): Boolean {
+        // find the car object by the index number
+        val foundCar = findCar(indexToUpdate)
+
+        // if the car exists, use the car details passed as parameters to update the found car in the ArrayList.
+        if ((foundCar != null) && (car != null)) {
+            foundCar.carModel = car.carModel
+            foundCar.carCategory = car.carCategory
+            foundCar.carCost = car.carCost
+            foundCar.carYear = car.carYear
+            foundCar.carEngine = car.carEngine
+            foundCar.numberOfDoors = car.numberOfDoors
+            foundCar.carTransmission = car.carTransmission
+            return true
+        }
+
+        // if the car was not found, return false, indicating that the update was not successful
+        return false
+    }
+
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }

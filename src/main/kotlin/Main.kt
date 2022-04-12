@@ -94,8 +94,31 @@ fun addCar(){
     }
 }
 
-fun updateCar(){
-    println("You chose Update Note")
+fun updateCar() {
+    //logger.info { "updateCars() function invoked" }
+    listAllCars()
+    if (carAPI.numberOfCars() > 0) {
+        //only ask the user to choose the car if cars exist
+        val indexToUpdate = readNextInt("Enter the index of the car to update: ")
+        if (carAPI.isValidIndex(indexToUpdate)) {
+            val carModel = readNextLine("Enter the model of the car: ")
+            val carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super: ")
+            val carCost = readNextDouble("Enter a price for the car: ")
+            val carYear = readNextInt("Enter the year of the car (00-99): ")
+            val carEngine = readNextDouble("Enter the engine size of the car: ")
+            val numberOfDoors = readNextInt("Enter the number of doors for the car (2-5): ")
+            val carTransmission = readNextLine("Enter the transmission of the car (Manual or Automatic): ")
+
+            //pass the index of the note and the new note details to NoteAPI for updating and check for success.
+            if (carAPI.updateCar(indexToUpdate, Car(carModel, carCategory, carCost, carYear, carEngine, numberOfDoors, carTransmission, false))){
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no cars for this index number")
+        }
+    }
 }
 
 fun deleteCar() {
