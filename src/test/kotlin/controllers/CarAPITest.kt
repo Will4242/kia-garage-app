@@ -7,6 +7,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNull
 
 class CarAPITest {
@@ -105,6 +106,39 @@ class CarAPITest {
             assertEquals(4, populatedCars!!.numberOfCars())
             assertEquals(kiaRio, populatedCars!!.deleteCar(0))
             assertEquals(3, populatedCars!!.numberOfCars())
+        }
+    }
+
+    @Nested
+    inner class UpdateCars {
+        @Test
+        fun `updating a car that does not exist returns false`() {
+            assertFalse(populatedCars!!.updateCar(6, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+            assertFalse(populatedCars!!.updateCar(-1, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+            assertFalse(emptyCars!!.updateCar(0, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+        }
+
+        @Test
+        fun `updating a car that exists returns true and updates`() {
+            // check car 5 exists and check the contents
+            assertEquals(kiaEV6, populatedCars!!.findCar(4))
+            assertEquals("Kia EV6", populatedCars!!.findCar(4)!!.carModel)
+            assertEquals("Super", populatedCars!!.findCar(4)!!.carCategory)
+            assertEquals(200_000.00, populatedCars!!.findCar(4)!!.carCost)
+            assertEquals(22, populatedCars!!.findCar(4)!!.carYear)
+            assertEquals(4.0, populatedCars!!.findCar(4)!!.carEngine)
+            assertEquals(2, populatedCars!!.findCar(4)!!.numberOfDoors)
+            assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
+
+            // update car 5 with new information and ensure contents updated successfully
+            kotlin.test.assertTrue(populatedCars!!.updateCar(4, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+            assertEquals("Updating Car", populatedCars!!.findCar(4)!!.carModel)
+            assertEquals("Sport", populatedCars!!.findCar(4)!!.carCategory)
+            assertEquals(80_000.00, populatedCars!!.findCar(4)!!.carCost)
+            assertEquals(21, populatedCars!!.findCar(4)!!.carYear)
+            assertEquals(2.0, populatedCars!!.findCar(4)!!.carEngine)
+            assertEquals(3, populatedCars!!.findCar(4)!!.numberOfDoors)
+            assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
         }
     }
 
