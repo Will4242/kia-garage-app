@@ -1,8 +1,21 @@
 package controllers
 
 import models.Car
+import persistence.Serializer
 
-class CarAPI {
+class CarAPI(serializerType: Serializer) {
+
+    private var serializer: Serializer = serializerType
+
+    @Throws(Exception::class)
+    fun load() {
+        cars = serializer.read() as ArrayList<Car>
+    }
+
+    @Throws(Exception::class)
+    fun store() {
+        serializer.write(cars)
+    }
 
     private var cars = ArrayList<Car>()
 
