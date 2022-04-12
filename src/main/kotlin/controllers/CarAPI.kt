@@ -16,11 +16,26 @@ class CarAPI {
         return cars.add(car)
     }
 
-    fun listAllCars(): String =
-        if (cars.isEmpty()) "No cars stored"
-        else formatListString(cars)
+    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
+        return (index >= 0 && index < list.size)
+    }
+
+    fun isValidIndex(index: Int): Boolean {
+        return isValidListIndex(index, cars)
+    }
 
     fun numberOfCars(): Int {
         return cars.size
     }
+
+    fun findCar(index: Int): Car? {
+        return if (isValidListIndex(index, cars)) {
+            cars[index]
+        } else null
+    }
+
+    fun listAllCars(): String =
+        if (cars.isEmpty()) "No cars stored"
+        else formatListString(cars)
+
 }
