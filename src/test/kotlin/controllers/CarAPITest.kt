@@ -57,33 +57,33 @@ class CarAPITest {
         }
 
         @Test
-        fun `adding a Note to an empty list adds to ArrayList`() {
-            val newNote = Note("Study Lambdas", 1, "College", false)
-            assertEquals(0, emptyNotes!!.numberOfNotes())
-            assertTrue(emptyNotes!!.add(newNote))
-            assertEquals(1, emptyNotes!!.numberOfNotes())
-            assertEquals(newNote, emptyNotes!!.findNote(emptyNotes!!.numberOfNotes() - 1))
+        fun `adding a Car to an empty list adds to ArrayList`() {
+            val newCar = Car("Kia Vanatge", "Super", 150_000.00, 22, 3.2, 3, "Automatic", false)
+            assertEquals(0, emptyCars!!.numberOfCars())
+            assertTrue(emptyCars!!.add(newCar))
+            assertEquals(1, emptyCars!!.numberOfCars())
+            assertEquals(newCar, emptyCars!!.findCar(emptyCars!!.numberOfCars() - 1))
         }
     }
 
     @Nested
-    inner class ListNotes {
+    inner class ListAllCars {
 
         @Test
-        fun `listAllNotes returns No Notes Stored message when ArrayList is empty`() {
-            assertEquals(0, emptyNotes!!.numberOfNotes())
-            assertTrue(emptyNotes!!.listAllNotes().lowercase().contains("no notes"))
+        fun `listAllCars returns No Cars Stored message when ArrayList is empty`() {
+            assertEquals(0, emptyCars!!.numberOfCars())
+            assertTrue(emptyCars!!.listAllCars().lowercase().contains("no cars"))
         }
 
         @Test
-        fun `listAllNotes returns Notes when ArrayList has notes stored`() {
-            assertEquals(5, populatedNotes!!.numberOfNotes())
-            val notesString = populatedNotes!!.listAllNotes().lowercase()
-            assertTrue(notesString.contains("learning kotlin"))
-            assertTrue(notesString.contains("code app"))
-            assertTrue(notesString.contains("test app"))
-            assertTrue(notesString.contains("swim"))
-            assertTrue(notesString.contains("summer holiday"))
+        fun `listAllCars returns Cars when ArrayList has cars stored`() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+            val notesString = populatedCars!!.listAllCars().lowercase()
+            assertTrue(notesString.contains("kia rio"))
+            assertTrue(notesString.contains("kia k900"))
+            assertTrue(notesString.contains("kia stinger"))
+            assertTrue(notesString.contains("kia niro"))
+            assertTrue(notesString.contains("kia ev6"))
         }
     }
 
