@@ -46,14 +46,14 @@ class CarAPITest {
     }
 
     @Nested
-    inner class AddNotes {
+    inner class AddCars {
         @Test
-        fun `adding a Note to a populated list adds to ArrayList`() {
-            val newNote = Note("Study Lambdas", 1, "College", false)
-            assertEquals(5, populatedNotes!!.numberOfNotes())
-            assertTrue(populatedNotes!!.add(newNote))
-            assertEquals(6, populatedNotes!!.numberOfNotes())
-            assertEquals(newNote, populatedNotes!!.findNote(populatedNotes!!.numberOfNotes() - 1))
+        fun `adding a Car to a populated list adds to ArrayList`() {
+            val newCar = Car("Kia Vanatge", "Super", 150_000.00, 22, 3.2, 3, "Automatic", false)
+            assertEquals(5, populatedCars!!.numberOfCars())
+            assertTrue(populatedCars!!.add(newCar))
+            assertEquals(6, populatedCars!!.numberOfCars())
+            assertEquals(newCar, populatedCars!!.findCar(populatedCars!!.numberOfCars() - 1))
         }
 
         @Test
