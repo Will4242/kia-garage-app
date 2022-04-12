@@ -80,9 +80,9 @@ fun listAllCars() {
 fun addCar(){
     //logger.info { "addNote() function invoked" }
     val carModel = readNextLine("Enter the model of the car: ")
-    val carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Waggon, Sport, Super: ")
+    val carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super: ")
     val carCost = readNextDouble("Enter a price for the car: ")
-    val carYear = readNextInt("Enter a year for the car (00-99): ")
+    val carYear = readNextInt("Enter the year of the car (00-99): ")
     val carEngine = readNextDouble("Enter the engine size of the car: ")
     val numberOfDoors = readNextInt("Enter the number of doors for the car (2-5): ")
     val carTransmission = readNextLine("Enter the transmission of the car (Manual or Automatic): ")
