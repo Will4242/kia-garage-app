@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import persistence.JSONSerializer
 import persistence.XMLSerializer
 import java.io.File
 import kotlin.test.assertEquals
@@ -141,6 +142,86 @@ class CarAPITest {
             assertEquals(2.0, populatedCars!!.findCar(4)!!.carEngine)
             assertEquals(3, populatedCars!!.findCar(4)!!.numberOfDoors)
             assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
+        }
+    }
+
+    @Nested
+    inner class PersistenceTests {
+
+        @Test
+        fun `saving and loading an empty collection in XML doesn't crash app`() {
+            // Saving an empty cars.XML file.
+            val storingCars = CarAPI(XMLSerializer(File("notes.xml")))
+            storingCars.store()
+
+            // Loading the empty Cars.xml file into a new object
+            val loadedCars = CarAPI(XMLSerializer(File("notes.xml")))
+            loadedCars.load()
+
+            // Comparing the source of the cars (storingCars) with the XML loaded cars (loadedCars)
+            assertEquals(0, storingCars.numberOfCars())
+            assertEquals(0, loadedCars.numberOfCars())
+            assertEquals(storingCars.numberOfCars(), loadedCars.numberOfCars())
+        }
+
+        @Test
+        fun `saving and loading an loaded collection in XML doesn't loose data`() {
+            // Storing 3 cars to the cars.XML file.
+            val storingCars = CarAPI(XMLSerializer(File("cars.xml")))
+            storingCars.add(kiaRio!!)
+            storingCars.add(kiaK900!!)
+            storingCars.add(kiaStinger!!)
+            storingCars.store()
+
+            // Loading cars.xml into a different collection
+            val loadedCars = CarAPI(XMLSerializer(File("cars.xml")))
+            loadedCars.load()
+
+            // Comparing the source of the cars (storingCars) with the XML loaded cars (loadedCars)
+            assertEquals(3, storingCars.numberOfCars())
+            assertEquals(3, loadedCars.numberOfCars())
+            assertEquals(storingCars.numberOfCars(), loadedCars.numberOfCars())
+            assertEquals(storingCars.findCar(0), loadedCars.findCar(0))
+            assertEquals(storingCars.findCar(1), loadedCars.findCar(1))
+            assertEquals(storingCars.findCar(2), loadedCars.findCar(2))
+        }
+
+        @Test
+        fun `saving and loading an empty collection in JSON doesn't crash app`() {
+            // Saving an empty cars.json file.
+            val storingCars = CarAPI(JSONSerializer(File("cars.json")))
+            storingCars.store()
+
+            // Loading the empty cars.json file into a new object
+            val loadedCars = CarAPI(JSONSerializer(File("cars.json")))
+            loadedCars.load()
+
+            // Comparing the source of the cars (storingCars) with the json loaded cars (loadedCars)
+            assertEquals(0, storingCars.numberOfCars())
+            assertEquals(0, loadedCars.numberOfCars())
+            assertEquals(storingCars.numberOfCars(), loadedCars.numberOfCars())
+        }
+
+        @Test
+        fun `saving and loading an loaded collection in JSON doesn't loose data`() {
+            // Storing 3 cars to the notes.json file.
+            val storingCars = CarAPI(JSONSerializer(File("cars.json")))
+            storingCars.add(kiaRio!!)
+            storingCars.add(kiaK900!!)
+            storingCars.add(kiaStinger!!)
+            storingCars.store()
+
+            // Loading cars.json into a different collection
+            val loadedCars = CarAPI(JSONSerializer(File("cars.json")))
+            loadedCars.load()
+
+            // Comparing the source of the cars (storingCars) with the json loaded cars (loadedCars)
+            assertEquals(3, storingCars.numberOfCars())
+            assertEquals(3, loadedCars.numberOfCars())
+            assertEquals(storingCars.numberOfCars(), loadedCars.numberOfCars())
+            assertEquals(storingCars.findCar(0), loadedCars.findCar(0))
+            assertEquals(storingCars.findCar(1), loadedCars.findCar(1))
+            assertEquals(storingCars.findCar(2), loadedCars.findCar(2))
         }
     }
 
