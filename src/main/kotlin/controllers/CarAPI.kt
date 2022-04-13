@@ -56,6 +56,20 @@ class CarAPI(serializerType: Serializer) {
         return false
     }
 
+    fun updateCost(indexToCost: Int, cost: Double): Boolean {
+        // find the car object by the index number
+        val foundCar = findCar(indexToCost)
+
+        // if the car exists, use the car details passed as parameters to update the found car in the ArrayList.
+        if ((foundCar != null)) {
+            foundCar.carCost = cost
+            return true
+        }
+
+        // if the car was not found, return false, indicating that the update was not successful
+        return false
+    }
+
     fun isValidListIndex(index: Int, list: List<Any>): Boolean {
         return (index >= 0 && index < list.size)
     }

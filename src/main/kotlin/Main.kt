@@ -28,10 +28,11 @@ fun mainMenu(): Int {
          > |   1) Add a Car                 |
          > |   2) List Cars                 |
          > |   3) Update a Car              |
-         > |   4) Delete a Car              |
-         > |   5) Sell a Car                |
-         > |   6) Save                      |
-         > |   7) Load                      |
+         > |   4) Update a Price            |
+         > |   5) Delete a Car              |
+         > |   6) Sell a Car                |
+         > |   7) Save                      |
+         > |   8) Load                      |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -46,10 +47,11 @@ fun runMenu() {
             1 -> addCar()
             2 -> listCars()
             3 -> updateCar()
-            4 -> deleteCar()
-            5 -> sellCar()
-            6 -> save()
-            7 -> load()
+            4 -> updateCost()
+            5 -> deleteCar()
+            6 -> sellCar()
+            7 -> save()
+            8 -> load()
             0 -> exitApp()
             else -> System.out.println("Invalid option entered: $option")
         }
@@ -66,6 +68,17 @@ fun listCars() {
                   > |   3) View Sold Cars            |
                   > |   4) Number of Cars on Sale    |
                   > |   5) Number of Sold Cars       |
+                  > |   6) View ordered by Price     |
+                  > |   7) View ordered by Model     |
+                  > |   8) View ordered by Category  |
+                  > |   9) View ordered by Engine    |
+                  > |  10) View ordered by Year      |
+                  > |  11) View Cars by Price Range  |
+                  > |  12) View Cars by No. Doors    |
+                  //searches sorted by price and number of cars in field given
+                  > |  13) Search Model              |
+                  > |  14) Search Category           |
+                  > |  15) Search Transmission       |
                   > ----------------------------------
          > ==>> """.trimMargin(">")
         )
@@ -144,6 +157,23 @@ fun updateCar() {
             }
         } else {
             println("There are no cars for this index number")
+        }
+    }
+}
+
+fun updateCost() {
+    listAllCars()
+    if (carAPI.numberOfCars() > 0) {
+        val indexToCost = readNextInt("Enter the index of the car to update: ")
+        if (carAPI.isValidIndex(indexToCost)) {
+            var carCost = readNextDouble("Enter a Price for the Car: ")
+            if (carAPI.updateCost(indexToCost, carCost)) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no notes for this index number")
         }
     }
 }
