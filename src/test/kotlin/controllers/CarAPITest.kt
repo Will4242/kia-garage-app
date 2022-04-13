@@ -24,8 +24,8 @@ class CarAPITest {
     private var emptyCars: CarAPI? = CarAPI(XMLSerializer(File("notes.xml")))
 
     @BeforeEach
-    fun setup(){
-        kiaRio = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual",false)
+    fun setup() {
+        kiaRio = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
         kiaK900 = Car("Kia K900", "Saloon", 60_000.00, 14, 2.0, 5, "Automatic", false)
         kiaStinger = Car("Kia Stinger", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)
         kiaNiro = Car("Kia Niro", "Jeep", 40_000.00, 18, 1.6, 5, "Automatic", false)
@@ -40,7 +40,7 @@ class CarAPITest {
     }
 
     @AfterEach
-    fun tearDown(){
+    fun tearDown() {
         kiaRio = null
         kiaK900 = null
         kiaStinger = null
@@ -116,8 +116,18 @@ class CarAPITest {
     inner class UpdateCars {
         @Test
         fun `updating a car that does not exist returns false`() {
-            assertFalse(populatedCars!!.updateCar(6, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
-            assertFalse(populatedCars!!.updateCar(-1, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+            assertFalse(
+                populatedCars!!.updateCar(
+                    6,
+                    Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)
+                )
+            )
+            assertFalse(
+                populatedCars!!.updateCar(
+                    -1,
+                    Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)
+                )
+            )
             assertFalse(emptyCars!!.updateCar(0, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
         }
 
@@ -134,7 +144,12 @@ class CarAPITest {
             assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
 
             // update car 5 with new information and ensure contents updated successfully
-            kotlin.test.assertTrue(populatedCars!!.updateCar(4, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+            kotlin.test.assertTrue(
+                populatedCars!!.updateCar(
+                    4,
+                    Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)
+                )
+            )
             assertEquals("Updating Car", populatedCars!!.findCar(4)!!.carModel)
             assertEquals("Sport", populatedCars!!.findCar(4)!!.carCategory)
             assertEquals(80_000.00, populatedCars!!.findCar(4)!!.carCost)
@@ -330,6 +345,63 @@ class CarAPITest {
             assertFalse(populatedCars!!.findCar(1)!!.isCarSold)
             kotlin.test.assertTrue(populatedCars!!.sellCar(1))
             kotlin.test.assertTrue(populatedCars!!.findCar(1)!!.isCarSold)
+        }
+    }
+
+    @Nested
+    inner class CarsSortedBy {
+
+        @Test
+        fun `notesSortedBy returns No cars on sale Stored message when no cars on sale but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfCarsOnSale())
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", true)
+            emptyCars!!.add(testSoldCar)
+            kotlin.test.assertTrue(emptyCars!!.listCarsOnSale().lowercase().contains("no cars on sale"))
+        }
+
+        @Test
+        fun `notesSortedByPrice returns Cars when ArrayList has cars on sale stored`() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            var carsString = populatedCars!!.listCarsOnSale().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+            carsString = populatedCars!!.carsSortedByCost().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+        }
+
+        @Test
+        fun `notesSortedByModel returns Cars when ArrayList has cars on sale stored`() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            var carsString = populatedCars!!.listCarsOnSale().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+            carsString = populatedCars!!.carsSortedByModel().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia ev6', carcategory='super', carcost=200000.0, caryear=22, carengine=4.0, numberofdoors=2, cartransmission='manual', iscarsold=false)"))
+        }
+
+        @Test
+        fun `notesSortedByCategory returns Cars when ArrayList has cars on sale stored`() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            var carsString = populatedCars!!.listCarsOnSale().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+            carsString = populatedCars!!.carsSortedByCategory().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+        }
+
+        @Test
+        fun `notesSortedByEngine returns Cars when ArrayList has cars on sale stored`() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            var carsString = populatedCars!!.listCarsOnSale().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+            carsString = populatedCars!!.carsSortedByEngine().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+        }
+
+        @Test
+        fun `notesSortedByYear returns Cars when ArrayList has cars on sale stored`() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            var carsString = populatedCars!!.listCarsOnSale().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
+            carsString = populatedCars!!.carsSortedByYear().lowercase()
+            kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia k900', carcategory='saloon', carcost=60000.0, caryear=14, carengine=2.0, numberofdoors=5, cartransmission='automatic', iscarsold=false)"))
         }
     }
 
