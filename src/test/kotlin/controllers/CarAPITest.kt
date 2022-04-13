@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import java.io.File
+import java.util.*
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
@@ -402,6 +403,25 @@ class CarAPITest {
             kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia rio', carcategory='hatchback', carcost=30000.0, caryear=20, carengine=1.2, numberofdoors=5, cartransmission='manual', iscarsold=false)"))
             carsString = populatedCars!!.carsSortedByYear().lowercase()
             kotlin.test.assertTrue(carsString.startsWith("0: car(carmodel='kia k900', carcategory='saloon', carcost=60000.0, caryear=14, carengine=2.0, numberofdoors=5, cartransmission='automatic', iscarsold=false)"))
+        }
+    }
+
+    @Nested
+    inner class ListCarsBySelectedNoDoors {
+
+        @Test
+        fun `listCarsBySelectedNoDoors returns all cars that match that number of doors when cars with doors of that number exist`() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+            val doorString = populatedCars!!.listCarsBySelectedNoDoors(2).lowercase()
+
+            kotlin.test.assertTrue(doorString.contains("kia ev6"))
+
+            val door4String = populatedCars!!.listCarsBySelectedNoDoors(5).lowercase(Locale.getDefault())
+            kotlin.test.assertTrue(door4String.contains("kia niro"))
+            kotlin.test.assertTrue(door4String.contains("kia rio"))
+            kotlin.test.assertTrue(door4String.contains("kia k900"))
+            assertFalse(door4String.contains("super"))
+            assertFalse(door4String.contains("sport"))
         }
     }
 
