@@ -3,6 +3,7 @@ package controllers
 import models.Car
 import persistence.Serializer
 import utils.ScannerInput
+import utils.Utilities.isValidListIndex
 
 class CarAPI(serializerType: Serializer) {
 
@@ -68,10 +69,6 @@ class CarAPI(serializerType: Serializer) {
 
         // if the car was not found, return false, indicating that the update was not successful
         return false
-    }
-
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
-        return (index >= 0 && index < list.size)
     }
 
     fun isValidIndex(index: Int): Boolean {
@@ -159,7 +156,7 @@ class CarAPI(serializerType: Serializer) {
         )
 
     fun numberOfCarsByModel(model: String): Int {
-        return cars.count { it.carModel == model }
+        return cars.count { it.carModel.lowercase() == model.lowercase() }
     }
 
     fun searchCarsByCategory(category: String) =
@@ -168,7 +165,7 @@ class CarAPI(serializerType: Serializer) {
         )
 
     fun numberOfCarsByCategory(category: String): Int {
-        return cars.count { it.carCategory == category }
+        return cars.count { it.carCategory.lowercase() == category.lowercase() }
     }
 
     fun searchCarsByTransmission(transmission: String) =
@@ -177,7 +174,12 @@ class CarAPI(serializerType: Serializer) {
         )
 
     fun numberOfCarsByTransmission(transmission: String): Int {
-        return cars.count { it.carTransmission == transmission }
+        return cars.count { it.carTransmission.lowercase() == transmission.lowercase() }
     }
+
+    fun searchCarByPriceRange(carCostMin: Double, carCostMax: Double) =
+        formatListString(
+             cars.filter {car -> car.carCost in(carCostMin..carCostMax)  }
+        )
 
 }

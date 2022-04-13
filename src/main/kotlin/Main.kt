@@ -2,10 +2,15 @@ import controllers.CarAPI
 import models.Car
 import mu.KotlinLogging
 import persistence.XMLSerializer
+import utils.CategoryUtility.categories
+import utils.CategoryUtility.isValidCategory
 import utils.ScannerInput
 import utils.ScannerInput.readNextDouble
 import utils.ScannerInput.readNextInt
 import utils.ScannerInput.readNextLine
+import utils.TransmissionUtility.isValidTransmission
+import utils.Utilities.isValidNoDoors
+import utils.Utilities.isValidYear
 import java.io.File
 import java.lang.System.exit
 
@@ -94,7 +99,7 @@ fun listCars() {
             9  -> carsSortedByEngine()
             10 -> carsSortedByYear()
             11 -> listCarsBySelectedNoDoors()
-            //12 -> listCarsInPriceRange()
+            12 -> searchCarByPriceRange()
             13 -> searchCarsByModel()
             14 -> searchCarsByCategory()
             15 -> searchCarsByTransmission()
@@ -129,12 +134,31 @@ fun listAllCars() {
 fun addCar(){
     //logger.info { "addNote() function invoked" }
     val carModel = readNextLine("Enter the model of the car: ")
-    val carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super: ")
+
+    var carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super): ")
+    while (!isValidCategory(carCategory)) {
+        carCategory = readNextLine("Invalid Category, enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super): ")
+    }
+
     val carCost = readNextDouble("Enter a price for the car: ")
-    val carYear = readNextInt("Enter the year of the car (00-99): ")
+
+    var carYear = readNextInt("Enter the year of the car (00-99): ")
+    while (!isValidYear(carYear)) {
+        carYear = readNextInt("Invalid Year, enter the year of the car (00-99): ")
+    }
+
     val carEngine = readNextDouble("Enter the engine size of the car: ")
-    val numberOfDoors = readNextInt("Enter the number of doors for the car (2-5): ")
-    val carTransmission = readNextLine("Enter the transmission of the car (Manual or Automatic): ")
+
+    var numberOfDoors = readNextInt("Enter the number of doors for the car (2-5): ")
+    while (!isValidNoDoors(numberOfDoors)) {
+        numberOfDoors = readNextInt("Invalid No. of Doors, Enter the number of doors for the car (2-5): ")
+    }
+
+    var carTransmission = readNextLine("Enter the transmission of the car (Manual or Automatic): ")
+    while (!isValidTransmission(carTransmission)) {
+        carTransmission = readNextLine("Invalid Transmission, Enter the transmission of the car (Manual or Automatic):  ")
+    }
+
     val isAdded = carAPI.add(Car(carModel, carCategory, carCost, carYear, carEngine, numberOfDoors, carTransmission, false))
     if (isAdded) {
         println("Added Successfully")
@@ -151,14 +175,31 @@ fun updateCar() {
         val indexToUpdate = readNextInt("Enter the index of the car to update: ")
         if (carAPI.isValidIndex(indexToUpdate)) {
             val carModel = readNextLine("Enter the model of the car: ")
-            val carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super: ")
-            val carCost = readNextDouble("Enter a price for the car: ")
-            val carYear = readNextInt("Enter the year of the car (00-99): ")
-            val carEngine = readNextDouble("Enter the engine size of the car: ")
-            val numberOfDoors = readNextInt("Enter the number of doors for the car (2-5): ")
-            val carTransmission = readNextLine("Enter the transmission of the car (Manual or Automatic): ")
 
-            //pass the index of the note and the new note details to NoteAPI for updating and check for success.
+            var carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super): ")
+            while (!isValidCategory(carCategory)) {
+                carCategory = readNextLine("Invalid Category, enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super): ")
+            }
+
+            val carCost = readNextDouble("Enter a price for the car: ")
+
+            var carYear = readNextInt("Enter the year of the car (00-99): ")
+            while (!isValidYear(carYear)) {
+                carYear = readNextInt("Invalid Year, enter the year of the car (00-99): ")
+            }
+
+            val carEngine = readNextDouble("Enter the engine size of the car: ")
+
+            var numberOfDoors = readNextInt("Enter the number of doors for the car (2-5): ")
+            while (!isValidNoDoors(numberOfDoors)) {
+                numberOfDoors = readNextInt("Invalid No. of Doors, Enter the number of doors for the car (2-5): ")
+            }
+
+            var carTransmission = readNextLine("Enter the transmission of the car (Manual or Automatic): ")
+            while (!isValidTransmission(carTransmission)) {
+                carTransmission = readNextLine("Invalid Transmission, Enter the transmission of the car (Manual or Automatic):  ")
+            }
+
             if (carAPI.updateCar(indexToUpdate, Car(carModel, carCategory, carCost, carYear, carEngine, numberOfDoors, carTransmission, false))){
                 println("Update Successful")
             } else {
@@ -292,5 +333,16 @@ fun searchCarsByTransmission() {
     } else {
         println(searchResults)
         println("There are ${carAPI.numberOfCarsByTransmission(searchTransmission)} cars for this Transmission")
+    }
+}
+
+fun searchCarByPriceRange(){
+    val carCostMin = readNextDouble("Enter Minimum price: ")
+    val carCostMax = readNextDouble("Enter Maximum Price: ")
+    val searchResults = carAPI.searchCarByPriceRange(carCostMin, carCostMax)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
     }
 }
