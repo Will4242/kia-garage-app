@@ -73,7 +73,6 @@ fun listCars() {
                   > |   8) View ordered by Category  |
                   > |   9) View ordered by Engine    |
                   > |  10) View ordered by Year      |
-                  //searches sorted by price and number of cars in field given
                   > |  11) View Cars by No. Doors    |
                   > |  12) View Cars by Price Range  |
                   > |  13) Search Model              |
@@ -96,9 +95,9 @@ fun listCars() {
             10 -> carsSortedByYear()
             11 -> listCarsBySelectedNoDoors()
             //12 -> listCarsInPriceRange()
-            //13 -> searchNotesByCategory()
-            //14 -> searchNotesByTitle()
-            //15 -> searchNotesByStatus()
+            13 -> searchCarsByModel()
+            14 -> searchCarsByCategory()
+            15 -> searchCarsByTransmission()
             else -> println("Invalid option entered: " + option)
         }
     } else {
@@ -261,4 +260,37 @@ fun listCarsBySelectedNoDoors() {
     val chosenNoDoors = ScannerInput.readNextInt("Enter Number of Doors for Car: ")
     println(carAPI.listCarsBySelectedNoDoors(chosenNoDoors))
     println("There are ${carAPI.numberOfCarsByNoDoors(chosenNoDoors)} notes for this priority")
+}
+
+fun searchCarsByModel() {
+    val searchModel = readNextLine("Enter the Model to search by: ")
+    val searchResults = carAPI.searchCarsByModel(searchModel)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
+        println("There are ${carAPI.numberOfCarsByModel(searchModel)} cars for this model")
+    }
+}
+
+fun searchCarsByCategory() {
+    val searchCategory = readNextLine("Enter the Category to search by: ")
+    val searchResults = carAPI.searchCarsByCategory(searchCategory)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
+        println("There are ${carAPI.numberOfCarsByCategory(searchCategory)} cars for this Category")
+    }
+}
+
+fun searchCarsByTransmission() {
+    val searchTransmission = readNextLine("Enter the Transmission to search by: ")
+    val searchResults = carAPI.searchCarsByTransmission(searchTransmission)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
+        println("There are ${carAPI.numberOfCarsByTransmission(searchTransmission)} cars for this Transmission")
+    }
 }

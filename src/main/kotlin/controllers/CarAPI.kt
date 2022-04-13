@@ -153,4 +153,31 @@ class CarAPI(serializerType: Serializer) {
         return cars.count({ it.numberOfDoors == carNumberOfDoors })
     }
 
+    fun searchCarsByModel(model: String) =
+        formatListString(
+            cars.filter { car -> car.carModel.contains(model, ignoreCase = true) }.sortedBy { it.carYear }
+        )
+
+    fun numberOfCarsByModel(model: String): Int {
+        return cars.count { it.carModel == model }
+    }
+
+    fun searchCarsByCategory(category: String) =
+        formatListString(
+            cars.filter { car -> car.carCategory.contains(category, ignoreCase = true) }.sortedBy { it.carCost }
+        )
+
+    fun numberOfCarsByCategory(category: String): Int {
+        return cars.count { it.carCategory == category }
+    }
+
+    fun searchCarsByTransmission(transmission: String) =
+        formatListString(
+            cars.filter { car -> car.carTransmission.contains(transmission, ignoreCase = true) }.sortedBy { it.carCost }
+        )
+
+    fun numberOfCarsByTransmission(transmission: String): Int {
+        return cars.count { it.carTransmission == transmission }
+    }
+
 }
