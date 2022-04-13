@@ -1,11 +1,8 @@
 package controllers
 
 import models.Car
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Nested
-import org.junit.jupiter.api.Test
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import java.io.File
@@ -544,6 +541,34 @@ class CarAPITest {
         fun numberOfCarsOnSaleCalculatedCorrectly() {
             assertEquals(5, populatedCars!!.numberOfCarsOnSale())
             assertEquals(0, emptyCars!!.numberOfCarsOnSale())
+        }
+    }
+
+    @Nested
+    inner class SearchCarByPriceRange {
+
+        @Test
+        fun `search cars by price range returns no cars when no cars in that price range exist`() {
+            // Searching a populated collection for a model that doesn't exist.
+            assertEquals(5, populatedCars!!.numberOfCars())
+            val searchResults = populatedCars!!.searchCarByPriceRange(2_000_000.0, 4_000_000.0)
+            kotlin.test.assertTrue(searchResults.isEmpty())
+
+            // Searching an empty collection
+            assertEquals(0, emptyCars!!.numberOfCars())
+            kotlin.test.assertTrue(emptyCars!!.searchCarByPriceRange(20_000.0,40_000.0).isEmpty())
+        }
+
+        @Test
+        fun `search cars by by price range returns cars when cars in that price range exist`() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+
+            var searchResults = populatedCars!!.searchCarByPriceRange(30_000.00, 60_000.00)
+            kotlin.test.assertTrue(searchResults.contains("Kia Rio"))
+            kotlin.test.assertTrue(searchResults.contains("Kia Niro"))
+            kotlin.test.assertTrue(searchResults.contains("Kia K900"))
+            assertFalse(searchResults.contains("Kia Stinger"))
+            assertFalse(searchResults.contains("Kia EV6"))
         }
     }
 
