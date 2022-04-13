@@ -525,4 +525,26 @@ class CarAPITest {
         }
     }
 
+    @Nested
+    inner class CountingMethods {
+
+        @Test
+        fun numberOfCarsCalculatedCorrectly() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+            assertEquals(0, emptyCars!!.numberOfCars())
+        }
+
+        @Test
+        fun numberOfSoldCarsCalculatedCorrectly() {
+            assertEquals(0, populatedCars!!.numberOfSoldCars())
+            assertEquals(0, emptyCars!!.numberOfSoldCars())
+        }
+
+        @Test
+        fun numberOfCarsOnSaleCalculatedCorrectly() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            assertEquals(0, emptyCars!!.numberOfCarsOnSale())
+        }
+    }
+
 }
