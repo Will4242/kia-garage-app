@@ -88,6 +88,17 @@ class CarAPI(serializerType: Serializer) {
         } else null
     }
 
+    fun sellCar(indexToSell: Int): Boolean {
+        if (isValidIndex(indexToSell)) {
+            val carToSold = cars[indexToSell]
+            if (!carToSold.isCarSold) {
+                carToSold.isCarSold = true
+                return true
+            }
+        }
+        return false
+    }
+
     fun listAllCars(): String =
         if (cars.isEmpty()) "No cars stored"
         else formatListString(cars)
@@ -108,15 +119,29 @@ class CarAPI(serializerType: Serializer) {
         return cars.count({ !it.isCarSold })
     }
 
-    fun sellCar(indexToSell: Int): Boolean {
-        if (isValidIndex(indexToSell)) {
-            val carToSold = cars[indexToSell]
-            if (!carToSold.isCarSold) {
-                carToSold.isCarSold = true
-                return true
-            }
-        }
-        return false
+    fun carsSortedByCost(): String {
+        cars.sortBy { it.carCost }
+        return listCarsOnSale()
+    }
+
+    fun carsSortedByModel(): String {
+        cars.sortBy { it.carModel }
+        return listCarsOnSale()
+    }
+
+    fun carsSortedByCategory(): String {
+        cars.sortBy { it.carCategory }
+        return listCarsOnSale()
+    }
+
+    fun carsSortedByEngine(): String {
+        cars.sortBy { it.carEngine }
+        return listCarsOnSale()
+    }
+
+    fun carsSortedByYear(): String {
+        cars.sortBy { it.carYear }
+        return listCarsOnSale()
     }
 
 }

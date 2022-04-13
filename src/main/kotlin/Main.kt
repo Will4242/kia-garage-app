@@ -84,11 +84,16 @@ fun listCars() {
         )
 
         when (option) {
-            1 -> listAllCars()
-            2 -> listCarsOnSale()
-            3 -> listSoldCars()
-            4 -> numberOfCarsOnSale()
-            5 -> numberOfSoldCars()
+            1  -> listAllCars()
+            2  -> listCarsOnSale()
+            3  -> listSoldCars()
+            4  -> numberOfCarsOnSale()
+            5  -> numberOfSoldCars()
+            6  -> carsSortedByCost()
+            7  -> carsSortedByModel()
+            8  -> carsSortedByCategory()
+            9  -> carsSortedByEngine()
+            10 -> carsSortedByYear()
             else -> println("Invalid option entered: " + option)
         }
     } else {
@@ -194,6 +199,18 @@ fun deleteCar() {
     }
 }
 
+fun sellCar() {
+    listCarsOnSale()
+    if (carAPI.numberOfCarsOnSale() > 0) {
+        val indexToSold = readNextInt("Enter the index of the car to sell: ")
+        if (carAPI.sellCar(indexToSold)) {
+            println("Sale Successful!")
+        } else {
+            println("Sale NOT Successful")
+        }
+    }
+}
+
 fun exitApp(){
     println("Exiting...bye")
     exit(0)
@@ -215,15 +232,22 @@ fun numberOfCarsOnSale() {
     println(carAPI.numberOfCarsOnSale())
 }
 
-fun sellCar() {
-    listCarsOnSale()
-    if (carAPI.numberOfCarsOnSale() > 0) {
-        val indexToSold = readNextInt("Enter the index of the car to sell: ")
-        if (carAPI.sellCar(indexToSold)) {
-            println("Sale Successful!")
-        } else {
-            println("Sale NOT Successful")
-        }
-    }
+fun carsSortedByCost() {
+    println(carAPI.carsSortedByCost())
 }
 
+fun carsSortedByModel() {
+    println(carAPI.carsSortedByModel())
+}
+
+fun carsSortedByCategory() {
+    println(carAPI.carsSortedByCategory())
+}
+
+fun carsSortedByEngine() {
+    println(carAPI.carsSortedByEngine())
+}
+
+fun carsSortedByYear() {
+    println(carAPI.carsSortedByYear())
+}
