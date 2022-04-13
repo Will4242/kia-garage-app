@@ -225,4 +225,112 @@ class CarAPITest {
         }
     }
 
+    @Nested
+    inner class ListCarsOnSale {
+
+        @Test
+        fun `listCarsOnSale returns No Cars on Sale Stored message when no Cars are on Sale but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfCarsOnSale())
+            val testSellCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", true)
+            emptyCars!!.add(testSellCar)
+            kotlin.test.assertTrue(emptyCars!!.listCarsOnSale().lowercase().contains("no cars on sale"))
+        }
+
+        @Test
+        fun `listCarsOnSale returns Cars when ArrayList has cars on sale stored`() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            val carsString = populatedCars!!.listCarsOnSale().lowercase()
+            kotlin.test.assertTrue(carsString.contains("kia rio"))
+            kotlin.test.assertTrue(carsString.contains("kia k900"))
+            kotlin.test.assertTrue(carsString.contains("kia stinger"))
+            kotlin.test.assertTrue(carsString.contains("kia niro"))
+            kotlin.test.assertTrue(carsString.contains("kia ev6"))
+        }
+    }
+
+    @Nested
+    inner class ListSoldCars {
+
+        @Test
+        fun `listSoldCars returns No Sold Cars Stored message when no Sold Cars but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfSoldCars())
+            val testSoldCars = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            emptyCars!!.add(testSoldCars)
+            kotlin.test.assertTrue(emptyCars!!.listSoldCars().lowercase().contains("no sold cars"))
+        }
+
+        @Test
+        fun `listSoldCars returns Cars when ArrayList has Sold Cars stored`() {
+            assertEquals(0, populatedCars!!.numberOfSoldCars())
+            populatedCars!!.findCar(0)!!.isCarSold = true
+            val carsString = populatedCars!!.listSoldCars().lowercase()
+            kotlin.test.assertTrue(carsString.contains("kia rio"))
+            kotlin.test.assertTrue(!carsString.contains("kia k900"))
+            kotlin.test.assertTrue(!carsString.contains("kia stinger"))
+            kotlin.test.assertTrue(!carsString.contains("kia niro"))
+            kotlin.test.assertTrue(!carsString.contains("kia ev6"))
+        }
+    }
+
+    @Nested
+    inner class NumberOfSoldCars {
+
+        @Test
+        fun `numberSoldCars returns No Sold Cars Stored message when no Sold Cars but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfSoldCars())
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            emptyCars!!.add(testSoldCar)
+            kotlin.test.assertTrue(emptyCars!!.listSoldCars().lowercase().contains("no sold cars"))
+        }
+
+        @Test
+        fun `numberOfSoldCars returns Cars when ArrayList has sold cars stored`() {
+            assertEquals(0, populatedCars!!.numberOfSoldCars())
+            populatedCars!!.findCar(0)!!.isCarSold = true
+            assertEquals(1, populatedCars!!.numberOfSoldCars())
+        }
+    }
+
+    @Nested
+    inner class NumberOfCarsOnSale {
+
+        @Test
+        fun `listCarsOnSale returns No Cars on Sale Stored message when no Cars on Sale but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfCarsOnSale())
+            val testCarsOnSale = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", true)
+            emptyCars!!.add(testCarsOnSale)
+            kotlin.test.assertTrue(emptyCars!!.listCarsOnSale().lowercase().contains("no cars on sale"))
+        }
+
+        @Test
+        fun `listCarsOnSale returns Cars when ArrayList has cars on sale stored`() {
+            assertEquals(5, populatedCars!!.numberOfCarsOnSale())
+            populatedCars!!.findCar(0)!!.isCarSold = true
+            assertEquals(4, populatedCars!!.numberOfCarsOnSale())
+        }
+    }
+
+    @Nested
+    inner class SellCar {
+        @Test
+        fun `selling a car that does not exist returns false`() {
+            assertFalse(populatedCars!!.sellCar(6))
+            assertFalse(populatedCars!!.sellCar(-1))
+            assertFalse(emptyCars!!.sellCar(0))
+        }
+
+        @Test
+        fun `selling an already sold car returns false`() {
+            assertFalse(populatedCars!!.findCar(2)!!.isCarSold)
+            kotlin.test.assertTrue(populatedCars!!.sellCar(2))
+        }
+
+        @Test
+        fun `selling a car on sale that exists returns true and sells`() {
+            assertFalse(populatedCars!!.findCar(1)!!.isCarSold)
+            kotlin.test.assertTrue(populatedCars!!.sellCar(1))
+            kotlin.test.assertTrue(populatedCars!!.findCar(1)!!.isCarSold)
+        }
+    }
+
 }
