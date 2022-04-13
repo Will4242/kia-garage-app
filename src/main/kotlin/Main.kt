@@ -28,10 +28,11 @@ fun mainMenu(): Int {
          > |   1) Add a Car                 |
          > |   2) List Cars                 |
          > |   3) Update a Car              |
-         > |   4) Delete a Car              |
-         > |   5) Sell a Car                |
-         > |   6) Save                      |
-         > |   7) Load                      |
+         > |   4) Update a Price            |
+         > |   5) Delete a Car              |
+         > |   6) Sell a Car                |
+         > |   7) Save                      |
+         > |   8) Load                      |
          > ----------------------------------
          > |   0) Exit                      |
          > ----------------------------------
@@ -46,10 +47,11 @@ fun runMenu() {
             1 -> addCar()
             2 -> listCars()
             3 -> updateCar()
-            4 -> deleteCar()
-            //5 -> sellCar()
-            6 -> save()
-            7 -> load()
+            4 -> updateCost()
+            5 -> deleteCar()
+            6 -> sellCar()
+            7 -> save()
+            8 -> load()
             0 -> exitApp()
             else -> System.out.println("Invalid option entered: $option")
         }
@@ -62,12 +64,40 @@ fun listCars() {
             """
                   > ----------------------------------
                   > |   1) View ALL Cars             |
+                  > |   2) View Cars on Sale         |
+                  > |   3) View Sold Cars            |
+                  > |   4) Number of Cars on Sale    |
+                  > |   5) Number of Sold Cars       |
+                  > |   6) View ordered by Price     |
+                  > |   7) View ordered by Model     |
+                  > |   8) View ordered by Category  |
+                  > |   9) View ordered by Engine    |
+                  > |  10) View ordered by Year      |
+                  > |  11) View Cars by No. Doors    |
+                  > |  12) View Cars by Price Range  |
+                  > |  13) Search Model              |
+                  > |  14) Search Category           |
+                  > |  15) Search Transmission       |
                   > ----------------------------------
          > ==>> """.trimMargin(">")
         )
 
         when (option) {
-            1 -> listAllCars()
+            1  -> listAllCars()
+            2  -> listCarsOnSale()
+            3  -> listSoldCars()
+            4  -> numberOfCarsOnSale()
+            5  -> numberOfSoldCars()
+            6  -> carsSortedByCost()
+            7  -> carsSortedByModel()
+            8  -> carsSortedByCategory()
+            9  -> carsSortedByEngine()
+            10 -> carsSortedByYear()
+            11 -> listCarsBySelectedNoDoors()
+            //12 -> listCarsInPriceRange()
+            13 -> searchCarsByModel()
+            14 -> searchCarsByCategory()
+            15 -> searchCarsByTransmission()
             else -> println("Invalid option entered: " + option)
         }
     } else {
@@ -140,6 +170,23 @@ fun updateCar() {
     }
 }
 
+fun updateCost() {
+    listAllCars()
+    if (carAPI.numberOfCars() > 0) {
+        val indexToCost = readNextInt("Enter the index of the car to update: ")
+        if (carAPI.isValidIndex(indexToCost)) {
+            var carCost = readNextDouble("Enter a Price for the Car: ")
+            if (carAPI.updateCost(indexToCost, carCost)) {
+                println("Update Successful")
+            } else {
+                println("Update Failed")
+            }
+        } else {
+            println("There are no notes for this index number")
+        }
+    }
+}
+
 fun deleteCar() {
     // logger.info { "deleteCars() function invoked" }
     listAllCars()
@@ -156,7 +203,94 @@ fun deleteCar() {
     }
 }
 
+fun sellCar() {
+    listCarsOnSale()
+    if (carAPI.numberOfCarsOnSale() > 0) {
+        val indexToSold = readNextInt("Enter the index of the car to sell: ")
+        if (carAPI.sellCar(indexToSold)) {
+            println("Sale Successful!")
+        } else {
+            println("Sale NOT Successful")
+        }
+    }
+}
+
 fun exitApp(){
     println("Exiting...bye")
     exit(0)
+}
+
+fun listCarsOnSale() {
+    println(carAPI.listCarsOnSale())
+}
+
+fun listSoldCars() {
+    println(carAPI.listSoldCars())
+}
+
+fun numberOfSoldCars() {
+    println(carAPI.numberOfSoldCars())
+}
+
+fun numberOfCarsOnSale() {
+    println(carAPI.numberOfCarsOnSale())
+}
+
+fun carsSortedByCost() {
+    println(carAPI.carsSortedByCost())
+}
+
+fun carsSortedByModel() {
+    println(carAPI.carsSortedByModel())
+}
+
+fun carsSortedByCategory() {
+    println(carAPI.carsSortedByCategory())
+}
+
+fun carsSortedByEngine() {
+    println(carAPI.carsSortedByEngine())
+}
+
+fun carsSortedByYear() {
+    println(carAPI.carsSortedByYear())
+}
+
+fun listCarsBySelectedNoDoors() {
+    val chosenNoDoors = ScannerInput.readNextInt("Enter Number of Doors for Car: ")
+    println(carAPI.listCarsBySelectedNoDoors(chosenNoDoors))
+    println("There are ${carAPI.numberOfCarsByNoDoors(chosenNoDoors)} notes for this priority")
+}
+
+fun searchCarsByModel() {
+    val searchModel = readNextLine("Enter the Model to search by: ")
+    val searchResults = carAPI.searchCarsByModel(searchModel)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
+        println("There are ${carAPI.numberOfCarsByModel(searchModel)} cars for this model")
+    }
+}
+
+fun searchCarsByCategory() {
+    val searchCategory = readNextLine("Enter the Category to search by: ")
+    val searchResults = carAPI.searchCarsByCategory(searchCategory)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
+        println("There are ${carAPI.numberOfCarsByCategory(searchCategory)} cars for this Category")
+    }
+}
+
+fun searchCarsByTransmission() {
+    val searchTransmission = readNextLine("Enter the Transmission to search by: ")
+    val searchResults = carAPI.searchCarsByTransmission(searchTransmission)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
+        println("There are ${carAPI.numberOfCarsByTransmission(searchTransmission)} cars for this Transmission")
+    }
 }
