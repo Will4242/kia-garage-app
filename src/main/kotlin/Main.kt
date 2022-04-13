@@ -73,9 +73,9 @@ fun listCars() {
                   > |   8) View ordered by Category  |
                   > |   9) View ordered by Engine    |
                   > |  10) View ordered by Year      |
-                  > |  11) View Cars by Price Range  |
-                  > |  12) View Cars by No. Doors    |
                   //searches sorted by price and number of cars in field given
+                  > |  11) View Cars by No. Doors    |
+                  > |  12) View Cars by Price Range  |
                   > |  13) Search Model              |
                   > |  14) Search Category           |
                   > |  15) Search Transmission       |
@@ -94,6 +94,11 @@ fun listCars() {
             8  -> carsSortedByCategory()
             9  -> carsSortedByEngine()
             10 -> carsSortedByYear()
+            11 -> listCarsBySelectedNoDoors()
+            //12 -> listCarsInPriceRange()
+            //13 -> searchNotesByCategory()
+            //14 -> searchNotesByTitle()
+            //15 -> searchNotesByStatus()
             else -> println("Invalid option entered: " + option)
         }
     } else {
@@ -250,4 +255,10 @@ fun carsSortedByEngine() {
 
 fun carsSortedByYear() {
     println(carAPI.carsSortedByYear())
+}
+
+fun listCarsBySelectedNoDoors() {
+    val chosenNoDoors = ScannerInput.readNextInt("Enter Number of Doors for Car: ")
+    println(carAPI.listCarsBySelectedNoDoors(chosenNoDoors))
+    println("There are ${carAPI.numberOfCarsByNoDoors(chosenNoDoors)} notes for this priority")
 }

@@ -144,4 +144,13 @@ class CarAPI(serializerType: Serializer) {
         return listCarsOnSale()
     }
 
+    fun listCarsBySelectedNoDoors(carNumberOfDoors: Int): String =
+        formatListString(
+            cars.filter { car -> car.numberOfDoors == carNumberOfDoors }
+        )
+
+    fun numberOfCarsByNoDoors(carNumberOfDoors: Int): Int {
+        return cars.count({ it.numberOfDoors == carNumberOfDoors })
+    }
+
 }
