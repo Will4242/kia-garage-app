@@ -425,4 +425,104 @@ class CarAPITest {
         }
     }
 
+    @Nested
+    inner class SearchMethods {
+
+        @Test
+        fun `search cars by model returns no cars when no cars with that model exist`() {
+            // Searching a populated collection for a model that doesn't exist.
+            assertEquals(5, populatedCars!!.numberOfCars())
+            val searchResults = populatedCars!!.searchCarsByModel("no results expected")
+            kotlin.test.assertTrue(searchResults.isEmpty())
+
+            // Searching an empty collection
+            assertEquals(0, emptyCars!!.numberOfCars())
+            kotlin.test.assertTrue(emptyCars!!.searchCarsByModel("").isEmpty())
+        }
+
+        @Test
+        fun `search cars by model returns cars when cars with that model exist`() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+
+            // Searching a populated collection for a full model that exists (case matches exactly)
+            var searchResults = populatedCars!!.searchCarsByModel("Kia Rio")
+            kotlin.test.assertTrue(searchResults.contains("Kia Rio"))
+            assertFalse(searchResults.contains("Kia Niro"))
+
+            // Searching a populated collection for a partial model that exists (case matches exactly)
+            searchResults = populatedCars!!.searchCarsByModel("Rio")
+            kotlin.test.assertTrue(searchResults.contains("Kia Rio"))
+            assertFalse(searchResults.contains("Kia K900"))
+
+            // Searching a populated collection for a partial model that exists (case doesn't match)
+            searchResults = populatedCars!!.searchCarsByModel("rIo")
+            kotlin.test.assertTrue(searchResults.contains("Kia Rio"))
+            assertFalse(searchResults.contains("Kia K900"))
+        }
+
+        @Test
+        fun `search cars by category returns no cars when no cars with that category exist`() {
+            // Searching a populated collection for a category that doesn't exist.
+            assertEquals(5, populatedCars!!.numberOfCars())
+            val searchResults = populatedCars!!.searchCarsByCategory("no results expected")
+            kotlin.test.assertTrue(searchResults.isEmpty())
+
+            // Searching an empty collection
+            assertEquals(0, emptyCars!!.numberOfCars())
+            kotlin.test.assertTrue(emptyCars!!.searchCarsByCategory("").isEmpty())
+        }
+
+        @Test
+        fun `search cars by category returns cars when cars with that category exist`() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+
+            // Searching a populated collection for a full model that exists (case matches exactly)
+            var searchResults = populatedCars!!.searchCarsByCategory("Super")
+            kotlin.test.assertTrue(searchResults.contains("Super"))
+            assertFalse(searchResults.contains("Kia Niro"))
+
+            // Searching a populated collection for a partial category that exists (case matches exactly)
+            searchResults = populatedCars!!.searchCarsByCategory("Super")
+            kotlin.test.assertTrue(searchResults.contains("Super"))
+            assertFalse(searchResults.contains("Kia K900"))
+
+            // Searching a populated collection for a partial category that exists (case doesn't match)
+            searchResults = populatedCars!!.searchCarsByCategory("sUper")
+            kotlin.test.assertTrue(searchResults.contains("Super"))
+            assertFalse(searchResults.contains("Kia K900"))
+        }
+
+        @Test
+        fun `search cars by transmission returns no cars when no cars with that transmission exist`() {
+            // Searching a populated collection for a transmission that doesn't exist.
+            assertEquals(5, populatedCars!!.numberOfCars())
+            val searchResults = populatedCars!!.searchCarsByTransmission("no results expected")
+            kotlin.test.assertTrue(searchResults.isEmpty())
+
+            // Searching an empty collection
+            assertEquals(0, emptyCars!!.numberOfCars())
+            kotlin.test.assertTrue(emptyCars!!.searchCarsByTransmission("").isEmpty())
+        }
+
+        @Test
+        fun `search cars by transmission returns cars when cars with that transmission exist`() {
+            assertEquals(5, populatedCars!!.numberOfCars())
+
+            // Searching a populated collection for a full transmission that exists (case matches exactly)
+            var searchResults = populatedCars!!.searchCarsByTransmission("Manual")
+            kotlin.test.assertTrue(searchResults.contains("Manual"))
+            assertFalse(searchResults.contains("Kia Niro"))
+
+            // Searching a populated collection for a partial transmission that exists (case matches exactly)
+            searchResults = populatedCars!!.searchCarsByTransmission("Manual")
+            kotlin.test.assertTrue(searchResults.contains("Manual"))
+            assertFalse(searchResults.contains("Kia K900"))
+
+            // Searching a populated collection for a partial transmission that exists (case doesn't match)
+            searchResults = populatedCars!!.searchCarsByTransmission("mAnual")
+            kotlin.test.assertTrue(searchResults.contains("Manual"))
+            assertFalse(searchResults.contains("Kia K900"))
+        }
+    }
+
 }
