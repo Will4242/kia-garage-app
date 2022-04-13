@@ -180,4 +180,9 @@ class CarAPI(serializerType: Serializer) {
         return cars.count { it.carTransmission == transmission }
     }
 
+    fun searchCarByPriceRange(carCostMin: Double, carCostMax: Double) =
+        formatListString(
+             cars.filter {car -> car.carCost in(carCostMin..carCostMax)  }
+        )
+
 }

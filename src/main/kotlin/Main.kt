@@ -94,7 +94,7 @@ fun listCars() {
             9  -> carsSortedByEngine()
             10 -> carsSortedByYear()
             11 -> listCarsBySelectedNoDoors()
-            //12 -> listCarsInPriceRange()
+            12 -> searchCarByPriceRange()
             13 -> searchCarsByModel()
             14 -> searchCarsByCategory()
             15 -> searchCarsByTransmission()
@@ -292,5 +292,16 @@ fun searchCarsByTransmission() {
     } else {
         println(searchResults)
         println("There are ${carAPI.numberOfCarsByTransmission(searchTransmission)} cars for this Transmission")
+    }
+}
+
+fun searchCarByPriceRange(){
+    val carCostMin = readNextDouble("Enter Minimum price: ")
+    val carCostMax = readNextDouble("Enter Maximum Price: ")
+    val searchResults = carAPI.searchCarByPriceRange(carCostMin, carCostMax)
+    if (searchResults.isEmpty()) {
+        println("No cars found")
+    } else {
+        println(searchResults)
     }
 }
