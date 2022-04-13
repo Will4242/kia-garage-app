@@ -159,7 +159,7 @@ class CarAPI(serializerType: Serializer) {
         )
 
     fun numberOfCarsByModel(model: String): Int {
-        return cars.count { it.carModel == model }
+        return cars.count { it.carModel.lowercase() == model.lowercase() }
     }
 
     fun searchCarsByCategory(category: String) =
@@ -168,7 +168,7 @@ class CarAPI(serializerType: Serializer) {
         )
 
     fun numberOfCarsByCategory(category: String): Int {
-        return cars.count { it.carCategory == category }
+        return cars.count { it.carCategory.lowercase() == category.lowercase() }
     }
 
     fun searchCarsByTransmission(transmission: String) =
@@ -177,7 +177,7 @@ class CarAPI(serializerType: Serializer) {
         )
 
     fun numberOfCarsByTransmission(transmission: String): Int {
-        return cars.count { it.carTransmission == transmission }
+        return cars.count { it.carTransmission.lowercase() == transmission.lowercase() }
     }
 
     fun searchCarByPriceRange(carCostMin: Double, carCostMax: Double) =
