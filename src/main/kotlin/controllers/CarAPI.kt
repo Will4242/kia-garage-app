@@ -3,6 +3,7 @@ package controllers
 import models.Car
 import persistence.Serializer
 import utils.ScannerInput
+import utils.Utilities.isValidListIndex
 
 class CarAPI(serializerType: Serializer) {
 
@@ -68,10 +69,6 @@ class CarAPI(serializerType: Serializer) {
 
         // if the car was not found, return false, indicating that the update was not successful
         return false
-    }
-
-    fun isValidListIndex(index: Int, list: List<Any>): Boolean {
-        return (index >= 0 && index < list.size)
     }
 
     fun isValidIndex(index: Int): Boolean {
