@@ -2,7 +2,6 @@ import controllers.CarAPI
 import models.Car
 import mu.KotlinLogging
 import persistence.XMLSerializer
-import utils.CategoryUtility.categories
 import utils.CategoryUtility.isValidCategory
 import utils.ScannerInput
 import utils.ScannerInput.readNextDouble
@@ -15,7 +14,7 @@ import java.io.File
 import java.lang.System.exit
 
 private val carAPI = CarAPI(XMLSerializer(File("cars.xml")))
-//private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
+// private val noteAPI = NoteAPI(JSONSerializer(File("notes.json")))
 
 private val logger = KotlinLogging.logger {}
 
@@ -88,15 +87,15 @@ fun listCars() {
         )
 
         when (option) {
-            1  -> listAllCars()
-            2  -> listCarsOnSale()
-            3  -> listSoldCars()
-            4  -> numberOfCarsOnSale()
-            5  -> numberOfSoldCars()
-            6  -> carsSortedByCost()
-            7  -> carsSortedByModel()
-            8  -> carsSortedByCategory()
-            9  -> carsSortedByEngine()
+            1 -> listAllCars()
+            2 -> listCarsOnSale()
+            3 -> listSoldCars()
+            4 -> numberOfCarsOnSale()
+            5 -> numberOfSoldCars()
+            6 -> carsSortedByCost()
+            7 -> carsSortedByModel()
+            8 -> carsSortedByCategory()
+            9 -> carsSortedByEngine()
             10 -> carsSortedByYear()
             11 -> listCarsBySelectedNoDoors()
             12 -> searchCarByPriceRange()
@@ -131,8 +130,8 @@ fun listAllCars() {
     println(carAPI.listAllCars())
 }
 
-fun addCar(){
-    //logger.info { "addNote() function invoked" }
+fun addCar() {
+    // logger.info { "addNote() function invoked" }
     val carModel = readNextLine("Enter the model of the car: ")
 
     var carCategory = readNextLine("Enter a category for the car (Jeep, Saloon, Hatchback, Sport, Super): ")
@@ -168,10 +167,10 @@ fun addCar(){
 }
 
 fun updateCar() {
-    //logger.info { "updateCars() function invoked" }
+    // logger.info { "updateCars() function invoked" }
     listAllCars()
     if (carAPI.numberOfCars() > 0) {
-        //only ask the user to choose the car if cars exist
+        // only ask the user to choose the car if cars exist
         val indexToUpdate = readNextInt("Enter the index of the car to update: ")
         if (carAPI.isValidIndex(indexToUpdate)) {
             val carModel = readNextLine("Enter the model of the car: ")
@@ -200,7 +199,7 @@ fun updateCar() {
                 carTransmission = readNextLine("Invalid Transmission, Enter the transmission of the car (Manual or Automatic):  ")
             }
 
-            if (carAPI.updateCar(indexToUpdate, Car(carModel, carCategory, carCost, carYear, carEngine, numberOfDoors, carTransmission, false))){
+            if (carAPI.updateCar(indexToUpdate, Car(carModel, carCategory, carCost, carYear, carEngine, numberOfDoors, carTransmission, false))) {
                 println("Update Successful")
             } else {
                 println("Update Failed")
@@ -256,7 +255,7 @@ fun sellCar() {
     }
 }
 
-fun exitApp(){
+fun exitApp() {
     println("Exiting...bye")
     exit(0)
 }
@@ -336,7 +335,7 @@ fun searchCarsByTransmission() {
     }
 }
 
-fun searchCarByPriceRange(){
+fun searchCarByPriceRange() {
     val carCostMin = readNextDouble("Enter Minimum price: ")
     val carCostMax = readNextDouble("Enter Maximum Price: ")
     val searchResults = carAPI.searchCarByPriceRange(carCostMin, carCostMax)

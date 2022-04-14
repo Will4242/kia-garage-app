@@ -1,15 +1,18 @@
 package controllers
 
 import models.Car
-import org.junit.jupiter.api.*
-import org.junit.jupiter.api.Assertions.assertTrue
+import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.Test
 import persistence.JSONSerializer
 import persistence.XMLSerializer
 import java.io.File
-import java.util.*
+import java.util.Locale
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 class CarAPITest {
 
@@ -29,7 +32,7 @@ class CarAPITest {
         kiaNiro = Car("Kia Niro", "Jeep", 40_000.00, 18, 1.6, 5, "Automatic", false)
         kiaEV6 = Car("Kia EV6", "Super", 200_000.00, 22, 4.0, 2, "Manual", false)
 
-        //adding 5 Note to the notes api
+        // adding 5 Note to the notes api
         populatedCars!!.add(kiaRio!!)
         populatedCars!!.add(kiaK900!!)
         populatedCars!!.add(kiaStinger!!)
@@ -556,7 +559,7 @@ class CarAPITest {
 
             // Searching an empty collection
             assertEquals(0, emptyCars!!.numberOfCars())
-            kotlin.test.assertTrue(emptyCars!!.searchCarByPriceRange(20_000.0,40_000.0).isEmpty())
+            kotlin.test.assertTrue(emptyCars!!.searchCarByPriceRange(20_000.0, 40_000.0).isEmpty())
         }
 
         @Test
@@ -571,5 +574,4 @@ class CarAPITest {
             assertFalse(searchResults.contains("Kia EV6"))
         }
     }
-
 }

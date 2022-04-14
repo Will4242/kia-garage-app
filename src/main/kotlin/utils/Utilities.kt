@@ -17,4 +17,3 @@ object Utilities {
         return (year in 0..99)
     }
 }
-

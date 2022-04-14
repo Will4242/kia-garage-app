@@ -2,7 +2,6 @@ package controllers
 
 import models.Car
 import persistence.Serializer
-import utils.ScannerInput
 import utils.Utilities.isValidListIndex
 
 class CarAPI(serializerType: Serializer) {
@@ -179,7 +178,6 @@ class CarAPI(serializerType: Serializer) {
 
     fun searchCarByPriceRange(carCostMin: Double, carCostMax: Double) =
         formatListString(
-             cars.filter {car -> car.carCost in(carCostMin..carCostMax)  }
+            cars.filter { car -> car.carCost in(carCostMin..carCostMax) }
         )
-
 }
