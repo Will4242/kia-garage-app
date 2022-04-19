@@ -21,6 +21,9 @@ jobs:
     
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
+      
+      - name: makeGradle
+        run: chmod +x ./gradlew
 
       # Run the Gradle build task, but without running the JUnit tests
       - name: Build with Gradle 
