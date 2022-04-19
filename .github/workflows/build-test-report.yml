@@ -49,7 +49,7 @@ jobs:
 
       # Run the Gradle test task
       - name: Test with Gradle 
-        run: ./gradlew build -x test --tests "*"
+        run: ./gradlew build -x test -tests "*"
 
       # Builds a zip file with JUnit test report in it
       - name: Archive test report
