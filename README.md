@@ -32,9 +32,7 @@ List Cars a sub menu from main menu that allows you to perform the following:
  -   View Cars by Price Range 
  -   Search Notes by Category
  -   Search Notes by Model   
- -   Search Notes by Transmission
-
-## Persistence 
+ -   Search Notes by Transmission 
 
 The cars can be persisted to files in the following format:
 
