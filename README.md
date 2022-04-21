@@ -34,6 +34,8 @@ List Cars a sub menu from main menu that allows you to perform the following:
  -   Search Notes by Model   
  -   Search Notes by Transmission
 
+## Persistence 
+
 The cars can be persisted to files in the following format:
 
  -   XML
