@@ -159,6 +159,46 @@ class CarAPITest {
             assertEquals(3, populatedCars!!.findCar(4)!!.numberOfDoors)
             assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
         }
+
+        @Test
+        fun `updating a car cost that does not exist returns false`() {
+            assertFalse(
+                populatedCars!!.updateCost(
+                    6, 80_000.00)
+                )
+            assertFalse(
+                populatedCars!!.updateCost(
+                    -1, 80_000.00)
+                )
+            assertFalse(emptyCars!!.updateCar(0, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+        }
+
+        @Test
+        fun `updating a cars cost that exists returns true and updates`() {
+
+            assertEquals(kiaEV6, populatedCars!!.findCar(4))
+            assertEquals("Kia EV6", populatedCars!!.findCar(4)!!.carModel)
+            assertEquals("Super", populatedCars!!.findCar(4)!!.carCategory)
+            assertEquals(200_000.00, populatedCars!!.findCar(4)!!.carCost)
+            assertEquals(22, populatedCars!!.findCar(4)!!.carYear)
+            assertEquals(4.0, populatedCars!!.findCar(4)!!.carEngine)
+            assertEquals(2, populatedCars!!.findCar(4)!!.numberOfDoors)
+            assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
+
+            // update car 5 with new information and ensure contents updated successfully
+            kotlin.test.assertTrue(
+                populatedCars!!.updateCost(
+                    4, 80_000.00)
+                )
+
+            assertEquals("Kia EV6", populatedCars!!.findCar(4)!!.carModel)
+            assertEquals("Super", populatedCars!!.findCar(4)!!.carCategory)
+            assertEquals(80_000.00, populatedCars!!.findCar(4)!!.carCost)
+            assertEquals(22, populatedCars!!.findCar(4)!!.carYear)
+            assertEquals(4.0, populatedCars!!.findCar(4)!!.carEngine)
+            assertEquals(2, populatedCars!!.findCar(4)!!.numberOfDoors)
+            assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
+        }
     }
 
     @Nested
@@ -574,4 +614,5 @@ class CarAPITest {
             assertFalse(searchResults.contains("Kia EV6"))
         }
     }
+
 }
