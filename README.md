@@ -41,7 +41,7 @@ The cars can be persisted to files in the following format:
 
 ## Project Purpose
 
-- The purpose of this project was to mainly learn the GitHub work flow. From creating iueses and a branch then committing that branch and doing a pull request linking the issue to merge the local branch into the master and deleting the local. The app its self allowed you to preform CRUD along with a variety of listOf and numberOf methods. JUnit testing was done for everything and validation was done for certain fields being entered by the user.
+- The purpose of this project was to mainly learn the GitHub work flow. From creating iueses and a branch then committing that branch and doing a pull request linking the issue to merge the local branch into the master and deleting the local. The app its self allowed you to preform CRUD along with a variety of listOf and numberOf methods. JUnit testing was done for everything and validation was done for certain fields being entered by the user. Generated a Dokka website from KDoc comments, Jacoco code coverage website report, linting code using ktlint and producing a "fat" jar with dependencies.
 
 ## Project Authors / Contributors
 
