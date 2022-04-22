@@ -159,6 +159,46 @@ class CarAPITest {
             assertEquals(3, populatedCars!!.findCar(4)!!.numberOfDoors)
             assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
         }
+
+        @Test
+        fun `updating a car cost that does not exist returns false`() {
+            assertFalse(
+                populatedCars!!.updateCost(
+                    6, 80_000.00)
+                )
+            assertFalse(
+                populatedCars!!.updateCost(
+                    -1, 80_000.00)
+                )
+            assertFalse(emptyCars!!.updateCar(0, Car("Updating Car", "Sport", 80_000.00, 21, 2.0, 3, "Manual", false)))
+        }
+
+        @Test
+        fun `updating a cars cost that exists returns true and updates`() {
+
+            assertEquals(kiaEV6, populatedCars!!.findCar(4))
+            assertEquals("Kia EV6", populatedCars!!.findCar(4)!!.carModel)
+            assertEquals("Super", populatedCars!!.findCar(4)!!.carCategory)
+            assertEquals(200_000.00, populatedCars!!.findCar(4)!!.carCost)
+            assertEquals(22, populatedCars!!.findCar(4)!!.carYear)
+            assertEquals(4.0, populatedCars!!.findCar(4)!!.carEngine)
+            assertEquals(2, populatedCars!!.findCar(4)!!.numberOfDoors)
+            assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
+
+            // update car 5 with new information and ensure contents updated successfully
+            kotlin.test.assertTrue(
+                populatedCars!!.updateCost(
+                    4, 80_000.00)
+                )
+
+            assertEquals("Kia EV6", populatedCars!!.findCar(4)!!.carModel)
+            assertEquals("Super", populatedCars!!.findCar(4)!!.carCategory)
+            assertEquals(80_000.00, populatedCars!!.findCar(4)!!.carCost)
+            assertEquals(22, populatedCars!!.findCar(4)!!.carYear)
+            assertEquals(4.0, populatedCars!!.findCar(4)!!.carEngine)
+            assertEquals(2, populatedCars!!.findCar(4)!!.numberOfDoors)
+            assertEquals("Manual", populatedCars!!.findCar(4)!!.carTransmission)
+        }
     }
 
     @Nested
@@ -296,6 +336,7 @@ class CarAPITest {
             assertEquals(0, emptyCars!!.numberOfSoldCars())
             val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
             emptyCars!!.add(testSoldCar)
+            assertEquals(0, emptyCars!!.numberOfSoldCars())
             kotlin.test.assertTrue(emptyCars!!.listSoldCars().lowercase().contains("no sold cars"))
         }
 
@@ -574,4 +615,79 @@ class CarAPITest {
             assertFalse(searchResults.contains("Kia EV6"))
         }
     }
+
+    @Nested
+    inner class NumberOf {
+
+        @Test
+        fun `numberOfCarsByModel returns empty string but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfCarsByModel("Kia Niro"))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            emptyCars!!.add(testSoldCar)
+            assertEquals(0, emptyCars!!.numberOfCarsByModel("Kia Niro"))
+            assertEquals(1, emptyCars!!.numberOfCarsByModel("Kia Rio"))
+            kotlin.test.assertTrue(emptyCars!!.searchCarsByModel("Kia Niro").isEmpty())
+        }
+
+        @Test
+        fun `numberOfCarsByModel returns Cars when ArrayList has cars by that model stored`() {
+            assertEquals(1, populatedCars!!.numberOfCarsByModel("Kia Rio"))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            populatedCars!!.add(testSoldCar)
+            assertEquals(2, populatedCars!!.numberOfCarsByModel("Kia Rio"))
+        }
+
+        @Test
+        fun `numberOfCarsByNoDoors returns empty string but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfCarsByNoDoors(2))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            emptyCars!!.add(testSoldCar)
+            assertEquals(0, emptyCars!!.numberOfCarsByNoDoors(2))
+            kotlin.test.assertTrue(emptyCars!!.listCarsBySelectedNoDoors(2).isEmpty())
+        }
+
+        @Test
+        fun `numberOfCarsByNoDoors returns Cars when ArrayList has cars by that model stored`() {
+            assertEquals(3, populatedCars!!.numberOfCarsByNoDoors(5))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            populatedCars!!.add(testSoldCar)
+            assertEquals(4, populatedCars!!.numberOfCarsByNoDoors(5))
+        }
+        @Test
+        fun `numberOfCarsByCategory returns empty string but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfCarsByCategory("Super"))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            emptyCars!!.add(testSoldCar)
+            assertEquals(0, emptyCars!!.numberOfCarsByCategory("Super"))
+            assertEquals(1, emptyCars!!.numberOfCarsByCategory("Hatchback"))
+            kotlin.test.assertTrue(emptyCars!!.searchCarsByCategory("Super").isEmpty())
+        }
+
+        @Test
+        fun `numberOfCarsByCategory returns Cars when ArrayList has cars by that category stored`() {
+            assertEquals(1, populatedCars!!.numberOfCarsByCategory("Hatchback"))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            populatedCars!!.add(testSoldCar)
+            assertEquals(2, populatedCars!!.numberOfCarsByCategory("Hatchback"))
+        }
+
+        @Test
+        fun `numberOfCarsByTransmission returns empty string but ArrayList is not empty`() {
+            assertEquals(0, emptyCars!!.numberOfCarsByTransmission("Automatic"))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            emptyCars!!.add(testSoldCar)
+            assertEquals(0, emptyCars!!.numberOfCarsByTransmission("Automatic"))
+            assertEquals(1, emptyCars!!.numberOfCarsByTransmission("Manual"))
+            kotlin.test.assertTrue(emptyCars!!.searchCarsByTransmission("Automatic").isEmpty())
+        }
+
+        @Test
+        fun `numberOfCarsByTransmission returns Cars when ArrayList has cars by that transmission stored`() {
+            assertEquals(3, populatedCars!!.numberOfCarsByTransmission("Manual"))
+            val testSoldCar = Car("Kia Rio", "Hatchback", 30_000.00, 20, 1.2, 5, "Manual", false)
+            populatedCars!!.add(testSoldCar)
+            assertEquals(4, populatedCars!!.numberOfCarsByTransmission("Manual"))
+        }
+    }
+
 }
